@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: termai-rerank
+  namespace: term-ai
+  labels:
+    app.kubernetes.io/name: termai-rerank
+    app.kubernetes.io/component: api
+    app.kubernetes.io/part-of: termai
+  annotations:
+    cert-manager.io/cluster-issuer: cluster-issuer-csiro
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  ingressClassName: contour
+  tls:
+    - hosts:
+        - termai-rerank.dw.csiro.au
+      secretName: termai-rerank-tls
+  rules:
+    - host: termai-rerank.dw.csiro.au
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: termai-rerank
+                port:
+                  number: 80
+  

@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: termai-rerank
+  namespace: term-ai
   labels:
     app: termai-rerank
 spec:
@@ -12,3 +13,4 @@ spec:
   - name: http
     port: 80
     targetPort: 8080
+    protocol: TCP
