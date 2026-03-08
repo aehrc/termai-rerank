@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: termai-rerank
+  labels:
+    app: termai-rerank
+spec:
+  type: ClusterIP
+  selector:
+    app: termai-rerank
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080

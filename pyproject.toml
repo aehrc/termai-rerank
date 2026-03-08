@@ -1,0 +1,59 @@
+[project]
+name = "termai-rerank"
+version = "0.1.0"
+description = "Production-grade FastAPI reranking microservice for search platforms."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+authors = [
+  { name = "termai-rerank team" }
+]
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.34.0",
+  "pydantic>=2.11.0",
+  "prometheus-client>=0.21.0",
+]
+
+[project.optional-dependencies]
+inference = [
+  "sentence-transformers>=3.4.0",
+  "FlagEmbedding>=1.3.4",
+  "torch>=2.6.0",
+  "transformers<5",
+]
+inference-cpu = [
+  "sentence-transformers>=3.4.0",
+  "FlagEmbedding>=1.3.4",
+  "transformers<5",
+]
+dev = [
+  "pytest>=8.4.0",
+  "httpx>=0.28.0",
+  "ruff>=0.11.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "B",
+  "UP",
+  "N",
+  "W",
+]

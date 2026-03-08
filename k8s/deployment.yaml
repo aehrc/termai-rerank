@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: termai-rerank
+  labels:
+    app: termai-rerank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: termai-rerank
+  template:
+    metadata:
+      labels:
+        app: termai-rerank
+    spec:
+      containers:
+      - name: termai-rerank
+        image: termai-rerank:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: APP_ENV
+          value: "prod"
+        - name: STARTUP_MODE
+          value: "best_effort"
+        - name: USE_MOCK_INFERENCE
+          value: "true"
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
